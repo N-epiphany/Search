@@ -1,0 +1,6 @@
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px; 
+/* because of the above 2 the box filled the entire page */
+}

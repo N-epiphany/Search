@@ -1,39 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import SearchResultsList from "./components/SearchResultsList";
-import startupData from "./startups.json";
 
-interface Startup {
-  "Incubation Center": string;
-  "Name of the startup": string;
-  "Location of company": string;
-  "Sector": string;
-  "Company profile": string;
+interface Product {
+  id: number;
+  title: string;
+  price: string;
+  category: string;
+  description: string;
+  image: string;
 }
 
 function App() {
-  const [results, setResults] = useState<Startup[]>([]);
-  const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((response) => response.json())
+      .then((data: Product[]) => {
+        setProducts(data);
+      });
+  }, []);
+
+  const handleSearch = (query: string) => {
+    setSearchTerm(query);
+    const filtered = products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
 
   return (
     <div className="App">
       <div className="search-bar-container">
-        <SearchBar setResults={setResults} startupData={startupData} setSelectedStartup={setSelectedStartup} />
-        {results && results.length > 0 && (
-          <SearchResultsList results={results} onStartupClick={handleStartupClick} />
+        <SearchBar onSearch={handleSearch} />
+        {searchTerm && (
+          <SearchResultsList
+            results={filteredProducts.length > 0 ? filteredProducts : products}
+          />
         )}
       </div>
-      {/* Display the selected startup's details */}
-      {selectedStartup && (
-        <div className="selected-startup-details">
-          <h2>{selectedStartup["Name of the startup"]}</h2>
-          <p>Location: {selectedStartup["Location of company"]}</p>
-          <p>Sector: {selectedStartup["Sector"]}</p>
-          <p>Company Profile: {selectedStartup["Company profile"]}</p>
-          <p>Incubation Center: {selectedStartup["Incubation Center"]}</p>
-        </div>
-      )}
     </div>
   );
 }

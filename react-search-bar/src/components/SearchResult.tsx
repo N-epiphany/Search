@@ -1,18 +1,30 @@
 import React from "react";
-import "./SearchResult.css";
 
-interface SearchResultProps {
-  result: any; // Change the type to any to accommodate startup data
-  onClick: () => void; // Add an onClick prop
+interface Product {
+  id: number;
+  title: string;
+  price: string;
+  category: string;
+  description: string;
+  image: string;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ result, onClick }) => {
+interface SearchResultProps {
+  result: Product;
+}
+
+const SearchResult: React.FC<SearchResultProps> = ({ result }) => {
   return (
-    <div className="search-result" onClick={onClick}>
-      {result["Name of the startup"]} {/* Display startup name */}
+    <div className="search-result">
+      <img src={result.image} alt={result.title} />
+      <div>
+        <h3>{result.title}</h3>
+        <p>Price: {result.price}</p>
+        <p>Category: {result.category}</p>
+        <p>{result.description}</p>
+      </div>
     </div>
   );
 };
-
 
 export default SearchResult;

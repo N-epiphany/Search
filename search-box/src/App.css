@@ -3,9 +3,9 @@
   height: 100vh;
  width: 100vw;  /*  100 percent of viewport width  */
 }
-.search-bar-container{
-  padding-top: 2vh;
-  width: 40%;
+.app{
+  padding-top: 5vh;
+  width: 80%;
   margin: auto; 
   display: flex;
   flex-direction: column;

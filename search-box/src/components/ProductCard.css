@@ -47,3 +47,16 @@
   padding-top: 4px;
   font-size: 19px;
 }
+
+
+/* For screens smaller than 768px: 1 card per row */
+@media (max-width: 767px) {
+  .product-list {
+    justify-content: center; /* Center the single card */
+  }
+
+  .product-card {
+    width: calc(100% - 32px); /* Full width with spacing */
+    margin: 8px; /* Adjust margin for single card */
+  }
+}
